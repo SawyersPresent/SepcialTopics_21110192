@@ -41,7 +41,7 @@ function HashSearch() {
         }
       });
 
-      navigate(`/events/${hashInput.trim()}`);
+      navigate(`/scan/${hashInput.trim()}`);
     } catch (error) {
       setError(error.response?.data?.error?.message || 'Hash not found in VirusTotal database');
     } finally {

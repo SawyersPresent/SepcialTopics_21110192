@@ -31,6 +31,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/events" element={<Events />} />
           <Route path="/events/:id" element={<HashDetails />} />
+          <Route path="/scan/:id" element={<HashDetails />} />
           <Route path="/search" element={<HashSearch />} />
         </Routes>
       </div>
