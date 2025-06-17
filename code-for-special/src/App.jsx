@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import Home from './Page/Home';
 import Events from './Page/Events';
-import EventDetails from './Page/EventDetails';
+import HashDetails from './Page/HashDetails';
 import HashSearch from './Page/HashSearch';
 
 function App() {
@@ -18,7 +18,7 @@ function App() {
             <Link className="nav-link" to="/">Home</Link>
           </li>
           <li className="nav-item">
-            <Link className="nav-link" to="/events">All Events</Link>
+            <Link className="nav-link" to="/events">Events</Link>
           </li>
           <li className="nav-item">
             <Link className="nav-link" to="/search">Hash Search</Link>
@@ -30,7 +30,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/events" element={<Events />} />
-          <Route path="/events/:id" element={<EventDetails />} />
+          <Route path="/events/:id" element={<HashDetails />} />
           <Route path="/search" element={<HashSearch />} />
         </Routes>
       </div>

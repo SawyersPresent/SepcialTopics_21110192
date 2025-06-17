@@ -1,7 +1,6 @@
 import { useParams, Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import styles from './MovieDetails.module.css';
 
 const VT_API_KEY = '71bcc79b2116544095460baafc059c8ee71cc572f707a684120592b9049d7292';
 
@@ -103,7 +102,7 @@ function MovieDetails() {
   const maliciousCount = stats.malicious + stats.suspicious;
 
   return (
-    <div className={styles.details}>
+    <div>
       <Link to="/movies" style={{ 
         color: '#007bff', 
         textDecoration: 'none', 
