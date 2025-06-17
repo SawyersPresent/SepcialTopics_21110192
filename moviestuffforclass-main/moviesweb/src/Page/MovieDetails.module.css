@@ -1,0 +1,10 @@
+.details {
+  max-width: 800px;
+  margin: auto;
+  padding: 2rem;
+  text-align: center;
+}
+.details img {
+  width: 40%;
+  border-radius: 10px;
+}
