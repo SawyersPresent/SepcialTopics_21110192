@@ -6,6 +6,7 @@ import Events from './Page/Events';
 import EventDetails from './Page/EventDetails';
 import HashDetails from './Page/HashDetails';
 import HashSearch from './Page/HashSearch';
+import Management from './Page/Management';
 
 function App() {
   return (
@@ -24,6 +25,9 @@ function App() {
           <li className="nav-item">
             <Link className="nav-link" to="/search">Hash Search</Link>
           </li>
+          <li className="nav-item">
+            <Link className="nav-link" to="/management">Management</Link>
+          </li>
         </ul>
       </nav>
 
@@ -34,6 +38,7 @@ function App() {
           <Route path="/events/:id" element={<EventDetails />} />
           <Route path="/scan/:id" element={<HashDetails />} />
           <Route path="/search" element={<HashSearch />} />
+          <Route path="/management" element={<Management />} />
         </Routes>
       </div>
     </Router>
