@@ -1,4 +1,7 @@
 # SepcialTopics_21110192
+## DISCLAIMER
+
+IM GOING TO SPLIT THIS REPO NOW DONT BE HERE
 
 
 npx create-react-app code-for-special
