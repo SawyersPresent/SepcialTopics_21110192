@@ -3,6 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import Home from './Page/Home';
 import Events from './Page/Events';
+import EventDetails from './Page/EventDetails';
 import HashDetails from './Page/HashDetails';
 import HashSearch from './Page/HashSearch';
 
@@ -11,7 +12,7 @@ function App() {
     <Router>
       <nav className="navbar navbar-expand navbar-light bg-light">
         <div className="navbar-brand" style={{ fontWeight: 'bold', color: '#007bff' }}>
-          🎉 Event Manager
+          Cyber Event Manager
         </div>
         <ul className="navbar-nav">
           <li className="nav-item">
@@ -30,7 +31,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/events" element={<Events />} />
-          <Route path="/events/:id" element={<HashDetails />} />
+          <Route path="/events/:id" element={<EventDetails />} />
           <Route path="/scan/:id" element={<HashDetails />} />
           <Route path="/search" element={<HashSearch />} />
         </Routes>

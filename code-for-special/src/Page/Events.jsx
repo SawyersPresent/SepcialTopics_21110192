@@ -5,72 +5,50 @@ import styles from './Movies.module.css';
 function Events() {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetchUpcomingEvents();
+    fetchEventsFromBackend();
   }, []);
 
-  const fetchUpcomingEvents = async () => {
+  const fetchEventsFromBackend = async () => {
     try {
       setLoading(true);
+      setError(null);
       
-      // Cyber security themed events data
-      const mockEvents = [
-        {
-          id: "ev-001",
-          title: "Cybersecurity Conference 2024",
-          date: "2024-07-15",
-          time: "09:00 AM",
-          location: "Tech Center, Manila",
-          category: "Cybersecurity",
-          price: 3500,
-          capacity: 300,
-          description: "Annual cybersecurity conference featuring the latest in threat detection and prevention",
-          organizer: "CyberSec Philippines"
-        },
-        {
-          id: "ev-002", 
-          title: "Ethical Hacking Workshop",
-          date: "2024-07-20",
-          time: "10:00 AM",
-          location: "Security Lab, Makati",
-          category: "Penetration Testing",
-          price: 2800,
-          capacity: 50,
-          description: "Hands-on workshop on ethical hacking techniques and penetration testing methods",
-          organizer: "WhiteHat Academy"
-        },
-        {
-          id: "ev-003",
-          title: "Digital Forensics Seminar",
-          date: "2024-07-25",
-          time: "02:00 PM",
-          location: "Law Enforcement Academy, Quezon City",
-          category: "Digital Forensics",
-          price: 4200,
-          capacity: 100,
-          description: "Advanced digital forensics techniques for investigating cyber crimes",
-          organizer: "Forensics Institute"
-        },
-        {
-          id: "ev-004",
-          title: "Network Security Summit",
-          date: "2024-08-01",
-          time: "08:00 AM",
-          location: "IT Park, Cebu",
-          category: "Network Security",
-          price: 0,
-          capacity: 200,
-          description: "Free summit on network security best practices and emerging threats",
-          organizer: "SecureNet PH"
-        }
-      ];
-
-      setEvents(mockEvents);
+      // Updated API endpoint - removed /users from the path
+      const response = await fetch('http://localhost:3001/api/events');
+      
+      if (!response.ok) {
+        throw new Error('Failed to fetch events');
+      }
+      
+      const eventsData = await response.json();
+      
+      // Transform backend data to match your frontend format
+      const transformedEvents = eventsData.map(event => ({
+        id: `ev-${event.id}`,
+        title: event.name,
+        date: event.event_date,
+        time: event.event_time,
+        price: parseFloat(event.price),
+        // Add default values for fields not in your DB
+        location: "Manila Convention Center",
+        category: "Cybersecurity",
+        capacity: 100,
+        description: `Cybersecurity event: ${event.name}`,
+        organizer: "CyberSec Philippines"
+      }));
+      
+      setEvents(transformedEvents);
       setLoading(false);
     } catch (error) {
-      console.error('Error fetching events:', error);
+      console.error('Error fetching events from backend:', error);
+      setError('Failed to load events from database');
       setLoading(false);
+      
+      // Fallback to empty array if backend fails
+      setEvents([]);
     }
   };
 
@@ -78,10 +56,38 @@ function Events() {
     return price === 0 ? 'Free' : `₱${price.toLocaleString()}`;
   };
 
+  const formatTime = (timeString) => {
+    // Convert 24-hour time to 12-hour format
+    const [hours, minutes] = timeString.split(':');
+    const hour12 = hours % 12 || 12;
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    return `${hour12}:${minutes} ${ampm}`;
+  };
+
   if (loading) {
     return (
       <div>
-        Loading events...
+        Loading events from database...
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div>
+        <p>Error: {error}</p>
+        <p>Please check if your backend server is running on localhost:3001</p>
+        <button onClick={fetchEventsFromBackend}>Retry</button>
+      </div>
+    );
+  }
+
+  if (events.length === 0) {
+    return (
+      <div>
+        <h2>No events found</h2>
+        <p>No events are currently stored in the database.</p>
+        <p>Add some events to your PostgreSQL database to see them here.</p>
       </div>
     );
   }
@@ -102,7 +108,7 @@ function Events() {
             <div style={{ padding: '1rem', backgroundColor: 'white' }}>
               <h3>{event.title}</h3>
               <p>Date: {new Date(event.date).toLocaleDateString()}</p>
-              <p>Time: {event.time}</p>
+              <p>Time: {formatTime(event.time)}</p>
               <p>Location: {event.location}</p>
               <p>Category: {event.category}</p>
               <p>Price: {formatPrice(event.price)}</p>

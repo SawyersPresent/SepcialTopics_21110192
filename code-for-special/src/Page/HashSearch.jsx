@@ -82,9 +82,7 @@ function HashSearch() {
       <div>
         <h3>Example hashes to try:</h3>
         <ul>
-          <li><code>44d88612fea8a8f36de82e1278abb02f</code> (EICAR test file)</li>
-          <li><code>d41d8cd98f00b204e9800998ecf8427e</code> (Empty file)</li>
-          <li><code>275a021bbfb6489e54d471899f7db9d1663fc695ec2fe2a2c4538aabf651fd0f</code> (EICAR SHA256)</li>
+          <li><code>47fcab85d25280942ac9752a5d5b4c8b85027273bdcde2191e3b9f560e568a27</code> Cobalt Strike Payload</li>
         </ul>
       </div>
     </div>
