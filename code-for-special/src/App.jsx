@@ -23,51 +23,39 @@ function App() {
 
   return (
     <Router>
-      <nav className="navbar navbar-expand navbar-light bg-light">
-        <div className="navbar-brand" style={{ fontWeight: 'bold', color: '#007bff' }}>
-          Cyber Event Manager
-        </div>
-        <ul className="navbar-nav">
-          <li className="nav-item">
+      <nav className="navbar navbar-expand-lg navbar-light bg-light">
+        <div className="container">
+          <Link className="navbar-brand" to="/">
+            Cyber Event Manager
+          </Link>
+          
+          <div className="navbar-nav me-auto">
             <Link className="nav-link" to="/">Home</Link>
-          </li>
-          <li className="nav-item">
             <Link className="nav-link" to="/events">Events</Link>
-          </li>
-          <li className="nav-item">
             <Link className="nav-link" to="/search">Hash Search</Link>
-          </li>
-          {isAdmin && (
-            <li className="nav-item">
+            {isAdmin && (
               <Link className="nav-link" to="/management">Management</Link>
-            </li>
-          )}
-        </ul>
-        <ul className="navbar-nav ml-auto">
-          {isLoggedIn ? (
-            <>
-              <li className="nav-item">
-                <span className="navbar-text">
+            )}
+          </div>
+          
+          <div className="navbar-nav">
+            {isLoggedIn ? (
+              <>
+                <span className="navbar-text me-3">
                   Welcome, {user.name} ({user.role})
                 </span>
-              </li>
-              <li className="nav-item">
-                <button className="btn btn-link nav-link" onClick={handleLogout}>
+                <button className="btn btn-outline-primary" onClick={handleLogout}>
                   Logout
                 </button>
-              </li>
-            </>
-          ) : (
-            <>
-              <li className="nav-item">
+              </>
+            ) : (
+              <>
                 <Link className="nav-link" to="/login">Login</Link>
-              </li>
-              <li className="nav-item">
                 <Link className="nav-link" to="/signup">Sign Up</Link>
-              </li>
-            </>
-          )}
-        </ul>
+              </>
+            )}
+          </div>
+        </div>
       </nav>
 
       <div className="container mt-4">
