@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-const VT_API_KEY = '71bcc79b2116544095460baafc059c8ee71cc572f707a684120592b9049d7292';
+const VT_API_KEY = process.env.REACT_APP_VIRUSTOTAL_API_KEY;
 
 function HashSearch() {
   const [hashInput, setHashInput] = useState('');
@@ -28,6 +28,11 @@ function HashSearch() {
 
     if (!validateHash(hashInput.trim())) {
       setError('Please enter a valid MD5, SHA1, or SHA256 hash');
+      return;
+    }
+
+    if (!VT_API_KEY) {
+      setError('VirusTotal API key not configured');
       return;
     }
 
