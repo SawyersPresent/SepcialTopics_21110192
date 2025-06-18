@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function Management() {
   const [events, setEvents] = useState([]);
@@ -13,9 +14,18 @@ function Management() {
     price: ''
   });
 
+  const navigate = useNavigate();
+  const user = JSON.parse(localStorage.getItem('user') || '{}');
+  const isAdmin = user.role === 'admin';
+
   useEffect(() => {
+    // Check if user is admin
+    if (!isAdmin) {
+      navigate('/');
+      return;
+    }
     fetchEvents();
-  }, []);
+  }, [isAdmin, navigate]);
 
   const fetchEvents = async () => {
     try {
@@ -105,11 +115,22 @@ function Management() {
     }
   };
 
+  // If not admin, show access denied
+  if (!isAdmin) {
+    return (
+      <div>
+        <h1>Access Denied</h1>
+        <p>Only administrators can access event management.</p>
+      </div>
+    );
+  }
+
   if (loading) return <div>Loading events...</div>;
 
   return (
     <div>
-      <h1>Event Management</h1>
+      <h1>Event Management (Admin Only)</h1>
+      <p>Welcome, {user.name}. You have administrator privileges.</p>
       
       {error && <div>{error}</div>}
       
@@ -198,7 +219,7 @@ function Management() {
                 <td>{event.name}</td>
                 <td>{event.event_date}</td>
                 <td>{event.event_time}</td>
-                <td>₱{parseFloat(event.price).toLocaleString()}</td>
+                <td>{parseFloat(event.price).toLocaleString()}</td>
                 <td>
                   <button onClick={() => handleEdit(event)}>Edit</button>
                   <button onClick={() => handleDelete(event.id)}>Delete</button>

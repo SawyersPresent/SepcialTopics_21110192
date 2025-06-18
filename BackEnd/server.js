@@ -2,8 +2,8 @@ import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import userRoutes from './routes/users.js';
+import authRoutes from './routes/auth.js';
 import pgclient from './db.js';
-
 
 const app = express();
 dotenv.config();
@@ -15,14 +15,13 @@ app.use(express.json());
 const PORT = process.env.PORT || 3002;
 
 // Routes || Endpoints || Request URLs
-
 app.use('/api', userRoutes);
+app.use('/api/auth', authRoutes);
 
 // localhost:3001/
 app.get("/", (req, res) => {
     res.send('home route');
 })
-
 
 // localhost:3001/test
 app.get('/test', (request, response) => {

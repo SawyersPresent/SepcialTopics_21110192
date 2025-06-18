@@ -7,8 +7,20 @@ import EventDetails from './Page/EventDetails';
 import HashDetails from './Page/HashDetails';
 import HashSearch from './Page/HashSearch';
 import Management from './Page/Management';
+import Login from './Page/Login';
+import Signup from './Page/Signup';
 
 function App() {
+  const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+  const user = JSON.parse(localStorage.getItem('user') || '{}');
+  const isAdmin = user.role === 'admin';
+
+  const handleLogout = () => {
+    localStorage.removeItem('user');
+    localStorage.removeItem('isLoggedIn');
+    window.location.reload();
+  };
+
   return (
     <Router>
       <nav className="navbar navbar-expand navbar-light bg-light">
@@ -25,9 +37,36 @@ function App() {
           <li className="nav-item">
             <Link className="nav-link" to="/search">Hash Search</Link>
           </li>
-          <li className="nav-item">
-            <Link className="nav-link" to="/management">Management</Link>
-          </li>
+          {isAdmin && (
+            <li className="nav-item">
+              <Link className="nav-link" to="/management">Management</Link>
+            </li>
+          )}
+        </ul>
+        <ul className="navbar-nav ml-auto">
+          {isLoggedIn ? (
+            <>
+              <li className="nav-item">
+                <span className="navbar-text">
+                  Welcome, {user.name} ({user.role})
+                </span>
+              </li>
+              <li className="nav-item">
+                <button className="btn btn-link nav-link" onClick={handleLogout}>
+                  Logout
+                </button>
+              </li>
+            </>
+          ) : (
+            <>
+              <li className="nav-item">
+                <Link className="nav-link" to="/login">Login</Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/signup">Sign Up</Link>
+              </li>
+            </>
+          )}
         </ul>
       </nav>
 
@@ -38,7 +77,9 @@ function App() {
           <Route path="/events/:id" element={<EventDetails />} />
           <Route path="/scan/:id" element={<HashDetails />} />
           <Route path="/search" element={<HashSearch />} />
-          <Route path="/management" element={<Management />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          {isAdmin && <Route path="/management" element={<Management />} />}
         </Routes>
       </div>
     </Router>
